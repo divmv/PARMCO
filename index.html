@@ -11,18 +11,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* Light gray background */
-        }
-        /* Custom styling for the mock card transformation */
-        .mock-card-container {
-            perspective: 1000px;
-        }
-        .mock-card {
-            transform: rotateX(5deg) rotateY(-5deg) rotateZ(1deg);
-            transition: transform 0.5s ease-in-out;
-        }
-        .mock-card:hover {
-            transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
         }
     </style>
     <script>
@@ -30,69 +18,79 @@
             theme: {
                 extend: {
                     colors: {
-                        'primary': '#1d4ed8', // Dark blue (PARMCO blue)
-                        'secondary': '#3b82f6', // Medium blue
-                        'accent': '#ef4444', // Red for emphasis
+                        // Updated palette for Dark Mode
+                        'primary': '#3b82f6', // Bright Blue (Headers, main focus)
+                        'secondary': '#10b981', // Emerald Green (Success, connections)
+                        'accent': '#ef4444', // Red (Stop, warnings)
+                        'dark-bg': '#0f172a', // Slate 900 for main background
+                        'dark-card': '#1e293b', // Slate 800 for cards
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="text-gray-800">
+<!-- Apply dark background and light text to the entire body -->
+<body class="text-gray-100 bg-dark-bg">
 
     <!-- Header & Navigation -->
-    <header class="bg-white shadow-md sticky top-0 z-10">
+    <header class="bg-dark-card shadow-lg sticky top-0 z-10 border-b border-gray-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <h1 class="text-2xl font-bold text-primary">
-                PARMCO <span class="text-secondary text-base font-normal hidden sm:inline-block">/ Precision Motor Control</span>
+                RP4 Motor Controller <span class="text-secondary text-base font-normal hidden sm:inline-block">/ Precision Control Platform</span>
             </h1>
             <nav class="space-x-4">
-                <a href="#overview" class="text-gray-600 hover:text-primary transition duration-150">Overview</a>
-                <a href="#architecture" class="text-gray-600 hover:text-primary transition duration-150">Architecture</a>
-                <a href="#features" class="text-gray-600 hover:text-primary transition duration-150">Control Modes</a>
-                <a href="https://github.com/your-project" target="_blank" class="text-gray-600 hover:text-primary transition duration-150 font-medium">GitHub</a>
+                <a href="#overview" class="text-gray-400 hover:text-primary transition duration-150">Overview</a>
+                <a href="#architecture" class="text-gray-400 hover:text-primary transition duration-150">Architecture</a>
+                <a href="#hardware" class="text-gray-400 hover:text-primary transition duration-150">Hardware</a>
+                <a href="#features" class="text-gray-400 hover:text-primary transition duration-150">Control Modes</a>
             </nav>
         </div>
     </header>
 
     <main>
         <!-- Hero Section -->
-        <section id="overview" class="py-16 md:py-24 bg-gray-50 border-b-4 border-primary/50">
+        <section id="overview" class="py-16 md:py-24 bg-gray-900 border-b-4 border-primary/50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-4xl sm:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
-                    PARMCO: <span class="text-primary">Android Precision</span> Motor Control
+                <h2 class="text-4xl sm:text-6xl font-extrabold text-white mb-4 leading-tight">
+                    PARMCO: <span class="text-primary">Real-Time Mobile</span> Motor Control
                 </h2>
-                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-8">
                     PARMCO is a cutting-edge mobile application designed for direct, real-time command and feedback of a remote motor system, focusing on reliability and a modern user experience.
                 </p>
-                <a href="https://github.com/your-project" target="_blank" class="inline-block px-10 py-4 bg-primary text-white text-lg font-semibold rounded-xl shadow-lg hover:bg-secondary transition duration-300 transform hover:scale-105">
-                    View the Code on GitHub
-                </a>
+                <div class="max-w-xs mx-auto rounded-3xl shadow-2xl overflow-hidden border-8 border-gray-700 bg-gray-900">
+                    <!-- IMAGE SOURCE UPDATED HERE -->
+                    <img src="Copy of App.JPEG" 
+                         alt="Screenshot of the PARMCO Android App UI"
+                         class="w-full h-auto object-cover"
+                         onerror="this.onerror=null; this.src='https://placehold.co/400x800/1e293b/ffffff?text=Image+Load+Failed';"
+                    >
+                    <p class="text-center text-xs text-gray-500 p-2">Reference: Copy of App.JPEG</p>
+                </div>
             </div>
         </section>
 
         <!-- Architecture Section -->
-        <section id="architecture" class="py-16 bg-white">
+        <section id="architecture" class="py-16 bg-dark-bg">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h3 class="text-3xl font-bold text-center mb-12 text-gray-900">Project Architecture and Implementation</h3>
+                <h3 class="text-3xl font-bold text-center mb-12 text-white">Project Architecture and Implementation</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
                     
                     <!-- Tech Stack -->
                     <div>
-                        <h4 class="text-2xl font-semibold text-primary mb-4">Software Stack</h4>
-                        <p class="text-gray-600 mb-6">The application is natively developed in Kotlin, utilizing the latest Android frameworks for a high-performance, responsive interface.</p>
+                        <h4 class="text-2xl font-semibold text-primary mb-4">Software Stack (Android)</h4>
+                        <p class="text-gray-400 mb-6">The application is natively developed in Kotlin, utilizing the latest Android frameworks for a high-performance, responsive interface.</p>
                         
                         <ul class="space-y-4">
-                            <li class="p-4 bg-gray-50 rounded-lg shadow-sm border-l-4 border-secondary">
-                                <span class="font-bold text-lg text-gray-900">Jetpack Compose:</span> Used for building the entire UI, including custom, animated components like the Rotary Speed Dial and real-time RPM display.
+                            <li class="p-4 bg-dark-card rounded-xl shadow-lg border-l-4 border-secondary">
+                                <span class="font-bold text-lg text-white">Jetpack Compose:</span> Used for building the entire UI, including custom, animated components like the Rotary Speed Dial and real-time RPM display.
                             </li>
-                            <li class="p-4 bg-gray-50 rounded-lg shadow-sm border-l-4 border-secondary">
-                                <span class="font-bold text-lg text-gray-900">Kotlin Coroutines:</span> Manages asynchronous operations like Bluetooth communication without blocking the main thread, ensuring a smooth user experience.
+                            <li class="p-4 bg-dark-card rounded-xl shadow-lg border-l-4 border-secondary">
+                                <span class="font-bold text-lg text-white">Kotlin Coroutines:</span> Manages asynchronous operations like Bluetooth communication without blocking the main thread.
                             </li>
-                            <li class="p-4 bg-gray-50 rounded-lg shadow-sm border-l-4 border-secondary">
-                                <span class="font-bold text-lg text-gray-900">Android SDK & Permissions:</span> Handles device-level interactions, including necessary BLUETOOTH\_CONNECT and ACCESS\_FINE\_LOCATION permissions across various Android versions.
+                            <li class="p-4 bg-dark-card rounded-xl shadow-lg border-l-4 border-secondary">
+                                <span class="font-bold text-lg text-white">Android SDK:</span> Handles device-level interactions, including necessary Bluetooth permissions across various Android versions.
                             </li>
                         </ul>
                     </div>
@@ -100,20 +98,20 @@
                     <!-- Communication -->
                     <div>
                         <h4 class="text-2xl font-semibold text-primary mb-4">Bluetooth Communication Layer</h4>
-                        <p class="text-gray-600 mb-6">Communication with the physical motor controller (a designated Raspberry Pi) is handled via the classic Bluetooth Serial Port Profile (SPP).</p>
+                        <p class="text-gray-400 mb-6">Communication with the physical motor controller (a designated Raspberry Pi) is handled via the classic Bluetooth Serial Port Profile (SPP).</p>
                         
                         <div class="space-y-4">
-                            <div class="p-4 bg-gray-100 rounded-lg shadow-md">
-                                <p class="font-semibold text-gray-900">Protocol: <span class="text-secondary">Bluetooth RFCOMM (SPP)</span></p>
-                                <p class="text-sm text-gray-600">Reliable, bidirectional streaming of text commands and data over Bluetooth classic.</p>
+                            <div class="p-4 bg-gray-800 rounded-xl shadow-md border-t border-gray-700">
+                                <p class="font-semibold text-white">Protocol: <span class="text-secondary">Bluetooth RFCOMM (SPP)</span></p>
+                                <p class="text-sm text-gray-400">Reliable, bidirectional streaming of text commands and data over Bluetooth classic.</p>
                             </div>
-                            <div class="p-4 bg-gray-100 rounded-lg shadow-md">
-                                <p class="font-semibold text-gray-900">Hardware Target: <span class="text-secondary">RP4 MAC Address (`2C:CF:67:53:61:32`)</span></p>
-                                <p class="text-sm text-gray-600">The app targets a specific device, using the hardcoded MAC address for immediate connection attempts.</p>
+                            <div class="p-4 bg-gray-800 rounded-xl shadow-md border-t border-gray-700">
+                                <p class="font-semibold text-white">Hardware Target: <span class="text-secondary">RP4 MAC Address (`2C:CF:67:53:61:32`)</span></p>
+                                <p class="text-sm text-gray-400">The app targets a specific device for immediate connection attempts.</p>
                             </div>
-                            <div class="p-4 bg-gray-100 rounded-lg shadow-md">
-                                <p class="font-semibold text-gray-900">Data Handling: <span class="text-secondary">Dedicated Read Thread</span></p>
-                                <p class="text-sm text-gray-600">A separate `ReadThread` continuously monitors the input stream, parsing incoming strings (expected to be the current RPM value) in real-time.</p>
+                            <div class="p-4 bg-gray-800 rounded-xl shadow-md border-t border-gray-700">
+                                <p class="font-semibold text-white">Data Handling: <span class="text-secondary">Dedicated Read Thread</span></p>
+                                <p class="text-sm text-gray-400">A separate Coroutine continuously monitors the input stream, parsing incoming strings (expected to be the current RPM value) in real-time.</p>
                             </div>
                         </div>
                     </div>
@@ -121,58 +119,118 @@
             </div>
         </section>
 
-        <!-- Control Modes & Features Section -->
-        <section id="features" class="py-16 bg-gray-50">
+        <!-- Hardware & Embedded C Details Section -->
+        <section id="hardware" class="py-16 bg-gray-900 border-b border-gray-700">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h3 class="text-3xl font-bold text-center mb-12 text-gray-900">Dual Control Modes and Command Structure</h3>
+                <h3 class="text-3xl font-bold text-center mb-12 text-white">Embedded Control Implementation (Raspberry Pi C)</h3>
+                
+                <p class="text-center text-lg text-gray-400 max-w-4xl mx-auto mb-10">
+                    The core control logic runs directly on the Raspberry Pi 4 using **bare-metal C** and direct GPIO register access (via `mmap`) for maximum speed and control precision.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Pin Mapping -->
+                    <div class="bg-dark-card p-6 rounded-xl shadow-xl border-l-4 border-primary/70">
+                        <h4 class="text-xl font-semibold text-white mb-3">GPIO Pin Mapping</h4>
+                        <ul class="space-y-2 text-gray-300">
+                            <li class="flex justify-between items-center border-b border-gray-700 pb-1">
+                                <span class="font-medium">Motor Direction (IN1/IN2):</span>
+                                <span class="text-primary font-mono">GPIO17 / GPIO27</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-gray-700 pb-1">
+                                <span class="font-medium">PWM Speed Control (EN1):</span>
+                                <span class="text-primary font-mono">GPIO18 (ALT5)</span>
+                            </li>
+                            <li class="flex justify-between items-center">
+                                <span class="font-medium">RPM Feedback (IR Sensor):</span>
+                                <span class="text-primary font-mono">GPIO22 (Input)</span>
+                            </li>
+                        </ul>
+                        <p class="text-sm mt-3 text-gray-500">
+                            The PWM logic uses **inverted logic** (0% duty = max speed, 100% duty = stopped).
+                        </p>
+                    </div>
+
+                    <!-- PWM & Measurement -->
+                    <div class="bg-dark-card p-6 rounded-xl shadow-xl border-l-4 border-secondary/70">
+                        <h4 class="text-xl font-semibold text-white mb-3">Timing and RPM Calculation</h4>
+                        <p class="text-gray-300 mb-4">
+                            The RPM is calculated using a dedicated, high-priority **`pthread`** that constantly monitors the IR sensor pin for rising edges.
+                        </p>
+                        <ul class="space-y-2 text-gray-300">
+                            <li class="flex justify-between items-center border-b border-gray-700 pb-1">
+                                <span class="font-medium">PWM Frequency:</span>
+                                <span class="text-secondary font-mono">1 kHz</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-gray-700 pb-1">
+                                <span class="font-medium">Pulses per Rotation:</span>
+                                <span class="text-secondary font-mono">3 Pulses</span>
+                            </li>
+                            <li class="flex justify-between items-center">
+                                <span class="font-medium">RPM Update Interval:</span>
+                                <span class="text-secondary font-mono">0.3 Seconds</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- PID Parameters -->
+                    <div class="bg-dark-card p-6 rounded-xl shadow-xl border-l-4 border-accent/70">
+                        <h4 class="text-xl font-semibold text-white mb-3">Closed-Loop PID Tuning</h4>
+                        <p class="text-gray-300 mb-4">
+                            The Automatic (Target RPM) mode uses a fixed-point Proportional-Integral (PI) control loop running inside the RPM thread.
+                        </p>
+                        <ul class="space-y-2 text-gray-300">
+                            <li class="flex justify-between items-center border-b border-gray-700 pb-1">
+                                <span class="font-medium">Proportional Gain (Kp):</span>
+                                <span class="text-accent font-mono">0.015</span>
+                            </li>
+                            <li class="flex justify-between items-center border-b border-gray-700 pb-1">
+                                <span class="font-medium">Integral Gain (Ki):</span>
+                                <span class="text-accent font-mono">0.001</span>
+                            </li>
+                            <li class="flex justify-between items-center">
+                                <span class="font-medium">RPM Deadband:</span>
+                                <span class="text-accent font-mono">±30 RPM</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Control Modes & Features Section -->
+        <section id="features" class="py-16 bg-dark-bg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h3 class="text-3xl font-bold text-center mb-12 text-white">Dual Control Modes and Command Structure</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     
                     <!-- Manual Mode -->
-                    <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-accent">
+                    <div class="bg-dark-card p-8 rounded-xl shadow-2xl border-t-4 border-accent">
                         <div class="flex items-center mb-4">
                             <span class="text-accent text-3xl font-bold mr-3">1.</span>
-                            <h4 class="text-2xl font-semibold text-gray-900">Manual PWM Mode</h4>
+                            <h4 class="text-2xl font-semibold text-white">Manual PWM Mode</h4>
                         </div>
-                        <p class="text-gray-600 mb-4">
+                        <p class="text-gray-400 mb-4">
                             In Manual mode, the user directly controls the motor's power output via the **Duty Cycle** (0-100%). This is an open-loop control system.
                         </p>
-                        <h5 class="font-bold text-gray-700 mt-4 mb-2">Command Format:</h5>
-                        <pre class="bg-gray-100 p-3 rounded-lg text-sm overflow-x-auto"><code class="text-red-600">"50"</code><span class="text-gray-800"> (Sets PWM to 50%)</span><br><code class="text-red-600">"START"</code><span class="text-gray-800"> / </span><code class="text-red-600">"STOP"</code></pre>
+                        <h5 class="font-bold text-gray-300 mt-4 mb-2">Command Format:</h5>
+                        <pre class="bg-gray-800 p-3 rounded-lg text-sm overflow-x-auto"><code class="text-red-400">"50"</code><span class="text-gray-300"> (Sets PWM to 50%)</span><br><code class="text-red-400">"START"</code><span class="text-gray-300"> / </span><code class="text-red-400">"STOP"</code></pre>
                     </div>
 
                     <!-- Automatic Mode -->
-                    <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-primary">
+                    <div class="bg-dark-card p-8 rounded-xl shadow-2xl border-t-4 border-primary">
                         <div class="flex items-center mb-4">
                             <span class="text-primary text-3xl font-bold mr-3">2.</span>
-                            <h4 class="text-2xl font-semibold text-gray-900">Automatic Target RPM Mode</h4>
+                            <h4 class="text-2xl font-semibold text-white">Automatic Target RPM Mode</h4>
                         </div>
-                        <p class="text-gray-600 mb-4">
+                        <p class="text-gray-400 mb-4">
                             In Automatic mode, the app requests a specific **Revolutions Per Minute (RPM)** target. The motor controller handles the necessary closed-loop (PID) logic on the hardware side.
                         </p>
-                        <h5 class="font-bold text-gray-700 mt-4 mb-2">Command Format:</h5>
-                        <pre class="bg-gray-100 p-3 rounded-lg text-sm overflow-x-auto"><code class="text-blue-600">"TARGET:4500"</code><span class="text-gray-800"> (Requests 4500 RPM)</span><br><code class="text-blue-600">"FORWARD"</code><span class="text-gray-800"> / </span><code class="text-blue-600">"REVERSE"</code></pre>
-                    </div>
-                </div>
-
-                <!-- Core UI Element Showcase -->
-                <div class="mt-16 pt-12 border-t border-gray-200">
-                    <h4 class="text-2xl font-semibold text-center mb-8 text-gray-900">Key UI Components (Jetpack Compose)</h4>
-                    <div class="max-w-md mx-auto mock-card-container">
-                        <div class="bg-gray-800 p-8 rounded-3xl shadow-2xl border-t-4 border-primary mock-card transition duration-500">
-                            <p class="text-white/80 text-center mb-4 text-sm uppercase tracking-widest">Rotary Speed Dial & Display</p>
-                            <div class="bg-black/90 p-6 rounded-xl border border-primary/50 text-center">
-                                <p class="text-xl font-bold text-green-400 mb-1">STATUS: CONNECTED</p>
-                                <div class="my-4 p-4 bg-gray-900 rounded-lg">
-                                    <p class="text-sm text-white/60 uppercase">ACTUAL RPM</p>
-                                    <p class="text-6xl font-extrabold text-secondary">3850</p>
-                                </div>
-                                <div class="flex justify-center space-x-4 mt-4">
-                                    <button class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition">START</button>
-                                    <button class="bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition">STOP</button>
-                                </div>
-                            </div>
-                        </div>
+                        <h5 class="font-bold text-gray-300 mt-4 mb-2">Command Format:</h5>
+                        <pre class="bg-gray-800 p-3 rounded-lg text-sm overflow-x-auto"><code class="text-blue-400">"TARGET:4500"</code><span class="text-gray-300"> (Requests 4500 RPM)</span><br><code class="text-blue-400">"FORWARD"</code><span class="text-gray-300"> / </span><code class="text-blue-400">"REVERSE"</code></pre>
                     </div>
                 </div>
             </div>
@@ -181,21 +239,20 @@
         <!-- CTA Section -->
         <section class="py-12 bg-primary/90">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h3 class="text-3xl font-bold text-white mb-4">Ready to See the Implementation?</h3>
-                <p class="text-white/80 text-lg mb-6">All code, from the Bluetooth service to the custom Compose UI, is open-source and available on GitHub.</p>
-                <a href="https://github.com/your-project" target="_blank" class="inline-block px-8 py-3 bg-white text-primary font-semibold rounded-lg shadow-lg hover:bg-gray-200 transition duration-300 transform hover:scale-105">
-                    Go to PARMCO Repository
-                </a>
+                <h3 class="text-3xl font-bold text-white mb-4">Explore the Motor Control Details</h3>
+                <p class="text-white/80 text-lg mb-6">Review the detailed architecture analysis and embedded system implementation within the project files.</p>
+                <button class="inline-block px-8 py-3 bg-white text-primary font-semibold rounded-lg shadow-lg hover:bg-gray-200 transition duration-300 transform hover:scale-105">
+                    View Project Files
+                </button>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8">
+    <footer class="bg-gray-800 text-gray-400 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-sm mb-2">&copy; 2025 PARMCO Motor Control. All rights reserved. Built with Kotlin and Jetpack Compose.</p>
+            <p class="text-sm mb-2">&copy; 2025 PARMCO Motor Control. Built with Kotlin and Bare-Metal C.</p>
             <div class="space-x-4 text-sm">
-                <a href="https://github.com/your-project" target="_blank" class="hover:text-primary transition duration-150">Repository</a>
                 <a href="#top" class="hover:text-primary transition duration-150">Back to Top</a>
             </div>
         </div>
