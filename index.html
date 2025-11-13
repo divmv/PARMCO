@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PARMCO: Precision Motor Control Platform</title>
+    <title>PARMCO: Phone APP RP4 Motor Control</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Configure Tailwind for Inter Font -->
@@ -24,6 +24,8 @@
                         'accent': '#ef4444', // Red (Stop, warnings)
                         'dark-bg': '#0f172a', // Slate 900 for main background
                         'dark-card': '#1e293b', // Slate 800 for cards
+                        'signal-low': '#6366f1', // Indigo for low-side logic
+                        'signal-high': '#f59e0b', // Amber for high-side power
                     }
                 }
             }
@@ -39,10 +41,11 @@
             <h1 class="text-2xl font-bold text-primary">
                 RP4 Motor Controller <span class="text-secondary text-base font-normal hidden sm:inline-block">/ Precision Control Platform</span>
             </h1>
-            <nav class="space-x-4">
+            <nav class="space-x-4 text-sm sm:text-base">
                 <a href="#overview" class="text-gray-400 hover:text-primary transition duration-150">Overview</a>
                 <a href="#architecture" class="text-gray-400 hover:text-primary transition duration-150">Architecture</a>
-                <a href="#hardware" class="text-gray-400 hover:text-primary transition duration-150">Hardware</a>
+                <a href="#hardware" class="text-primary font-semibold transition duration-150">Hardware</a>
+                <a href="#circuit_details" class="text-gray-400 hover:text-primary transition duration-150">Circuit Diagram</a>
                 <a href="#features" class="text-gray-400 hover:text-primary transition duration-150">Control Modes</a>
             </nav>
         </div>
@@ -59,13 +62,13 @@
                     PARMCO is a cutting-edge mobile application designed for direct, real-time command and feedback of a remote motor system, focusing on reliability and a modern user experience.
                 </p>
                 <div class="max-w-xs mx-auto rounded-3xl shadow-2xl overflow-hidden border-8 border-gray-700 bg-gray-900">
-                    <!-- IMAGE SOURCE UPDATED HERE -->
+                    <!-- App Image -->
                     <img src="Copy of App.JPEG" 
                          alt="Screenshot of the PARMCO Android App UI"
                          class="w-full h-auto object-cover"
-                         onerror="this.onerror=null; this.src='https://placehold.co/400x800/1e293b/ffffff?text=Image+Load+Failed';"
+                         onerror="this.onerror=null; this.src='https://placehold.co/400x800/1e293b/ffffff?text=App+Image+Load+Failed';"
                     >
-                    <p class="text-center text-xs text-gray-500 p-2">Reference: Copy of App.JPEG</p>
+                    <p class="text-center text-xs text-gray-500 p-2">Reference: App Interface (Copy of App.JPEG)</p>
                 </div>
             </div>
         </section>
@@ -89,9 +92,6 @@
                             <li class="p-4 bg-dark-card rounded-xl shadow-lg border-l-4 border-secondary">
                                 <span class="font-bold text-lg text-white">Kotlin Coroutines:</span> Manages asynchronous operations like Bluetooth communication without blocking the main thread.
                             </li>
-                            <li class="p-4 bg-dark-card rounded-xl shadow-lg border-l-4 border-secondary">
-                                <span class="font-bold text-lg text-white">Android SDK:</span> Handles device-level interactions, including necessary Bluetooth permissions across various Android versions.
-                            </li>
                         </ul>
                     </div>
 
@@ -103,15 +103,9 @@
                         <div class="space-y-4">
                             <div class="p-4 bg-gray-800 rounded-xl shadow-md border-t border-gray-700">
                                 <p class="font-semibold text-white">Protocol: <span class="text-secondary">Bluetooth RFCOMM (SPP)</span></p>
-                                <p class="text-sm text-gray-400">Reliable, bidirectional streaming of text commands and data over Bluetooth classic.</p>
                             </div>
                             <div class="p-4 bg-gray-800 rounded-xl shadow-md border-t border-gray-700">
                                 <p class="font-semibold text-white">Hardware Target: <span class="text-secondary">RP4 MAC Address (`2C:CF:67:53:61:32`)</span></p>
-                                <p class="text-sm text-gray-400">The app targets a specific device for immediate connection attempts.</p>
-                            </div>
-                            <div class="p-4 bg-gray-800 rounded-xl shadow-md border-t border-gray-700">
-                                <p class="font-semibold text-white">Data Handling: <span class="text-secondary">Dedicated Read Thread</span></p>
-                                <p class="text-sm text-gray-400">A separate Coroutine continuously monitors the input stream, parsing incoming strings (expected to be the current RPM value) in real-time.</p>
                             </div>
                         </div>
                     </div>
@@ -119,83 +113,132 @@
             </div>
         </section>
 
-        <!-- Hardware & Embedded C Details Section -->
+        <!-- Hardware Components Section - FULLY REWORKED -->
         <section id="hardware" class="py-16 bg-gray-900 border-b border-gray-700">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h3 class="text-3xl font-bold text-center mb-12 text-white">Embedded Control Implementation (Raspberry Pi C)</h3>
+                <h3 class="text-4xl font-extrabold text-center mb-12 text-white">Embedded Control and Circuit Details Overview</h3>
                 
                 <p class="text-center text-lg text-gray-400 max-w-4xl mx-auto mb-10">
-                    The core control logic runs directly on the Raspberry Pi 4 using **bare-metal C** and direct GPIO register access (via `mmap`) for maximum speed and control precision.
+                    The core control logic runs directly on the **Raspberry Pi 4**. The system is optimized for speed and reliability using a specialized bare-metal C program that handles everything from input/output to closed-loop speed regulation.
                 </p>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                     
-                    <!-- Pin Mapping -->
-                    <div class="bg-dark-card p-6 rounded-xl shadow-xl border-l-4 border-primary/70">
-                        <h4 class="text-xl font-semibold text-white mb-3">GPIO Pin Mapping</h4>
-                        <ul class="space-y-2 text-gray-300">
-                            <li class="flex justify-between items-center border-b border-gray-700 pb-1">
-                                <span class="font-medium">Motor Direction (IN1/IN2):</span>
-                                <span class="text-primary font-mono">GPIO17 / GPIO27</span>
-                            </li>
-                            <li class="flex justify-between items-center border-b border-gray-700 pb-1">
-                                <span class="font-medium">PWM Speed Control (EN1):</span>
-                                <span class="text-primary font-mono">GPIO18 (ALT5)</span>
-                            </li>
-                            <li class="flex justify-between items-center">
-                                <span class="font-medium">RPM Feedback (IR Sensor):</span>
-                                <span class="text-primary font-mono">GPIO22 (Input)</span>
-                            </li>
-                        </ul>
-                        <p class="text-sm mt-3 text-gray-500">
-                            The PWM logic uses 0% duty = stopped, 100% duty = max speed.
+                    <!-- Component 1: Raspberry Pi 4 (Controller) -->
+                    <div class="bg-dark-card p-6 rounded-xl shadow-2xl border-l-8 border-signal-low">
+                        <h4 class="text-2xl font-bold text-signal-low mb-4 flex items-center">
+                            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 10v6m14-6v6m-4-7V7a1 1 0 00-1-1H9a1 1 0 00-1 1v4h8z"></path></svg>
+                            RP4: The Master Controller
+                        </h4>
+                        <p class="text-gray-300 mb-4">The Raspberry Pi serves as the brain, executing the C-based control firmware and managing Bluetooth communication with the mobile app. Its GPIO pins are meticulously configured for specific motor I/O tasks.</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 text-sm font-mono bg-gray-800 p-4 rounded-lg">
+                            <div>
+                                <span class="block text-primary font-semibold">Direction Control (A):</span>
+                                <code class="text-white">GPIO17 (IN1)</code>
+                            </div>
+                            <div>
+                                <span class="block text-primary font-semibold">Direction Control (B):</span>
+                                <code class="text-white">GPIO27 (IN2)</code>
+                            </div>
+                            <div>
+                                <span class="block text-primary font-semibold">Speed Modulation:</span>
+                                <code class="text-white">GPIO18 (PWM)</code>
+                            </div>
+                            <div>
+                                <span class="block text-primary font-semibold">Feedback Input:</span>
+                                <code class="text-white">GPIO22 (RPM)</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Component 2: Power Stage & H-Bridge -->
+                    <div class="bg-dark-card p-6 rounded-xl shadow-2xl border-l-8 border-signal-high">
+                        <h4 class="text-2xl font-bold text-signal-high mb-4 flex items-center">
+                            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            Power Stage: L293D & MOSFET
+                        </h4>
+                        <p class="text-gray-300 mb-4">This section handles the high-current 12V motor supply, isolating it from the low-voltage 3.3V Pi logic. Direction is set by the **L293D H-Bridge** (a dual H-bridge IC). Speed is controlled by the **IRF744N MOSFET** switching the H-Bridge's enable pin.</p>
+                        
+                        <div class="space-y-2 text-sm bg-gray-800 p-4 rounded-lg">
+                            <p class="text-white"><span class="font-semibold text-signal-high">L293D Specs:</span> Dual channel, 600mA output capacity, accepts 3.3V logic.</p>
+                            <p class="text-white"><span class="font-semibold text-signal-high">PWM Integration:</span> A PWM signal drives the MOSFET gate through a 1kΩ resistor.</p>
+                            <p class="text-white"><span class="font-semibold text-signal-high">Safety:</span> Built-in flyback diodes protect components from motor inductive spikes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Component 3: Velocity Feedback -->
+                    <div class="md:col-span-2 bg-dark-card p-6 rounded-xl shadow-2xl border-t-4 border-secondary">
+                        <h4 class="text-2xl font-bold text-secondary mb-4 flex items-center">
+                            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.836 0H20v-5m-7-2v8m-4 0h8"></path></svg>
+                            Speed Feedback and PID Loop
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <h5 class="font-semibold text-white mb-2">RPM Sensing</h5>
+                                <p class="text-gray-300 text-sm">An **IR reflective sensor** detects rotation via markings on the motor shaft, generating **3 pulses per rotation**. This digital stream is timed by the Pi to calculate instantaneous RPM.</p>
+                            </div>
+                            <div>
+                                <h5 class="font-semibold text-white mb-2">PI Controller Tuning</h5>
+                                <p class="text-gray-300 text-sm">The controller uses a **PI (Proportional-Integral) loop** for smooth, error-free speed locking. The parameters are tuned to minimize overshoot while ensuring rapid convergence to the target RPM.</p>
+                            </div>
+                            <div class="bg-gray-800 p-3 rounded-lg">
+                                <span class="font-mono block text-white">Kp (Proportional Gain): <span class="text-accent font-bold">0.015</span></span>
+                                <span class="font-mono block text-white">Ki (Integral Gain): <span class="text-accent font-bold">0.001</span></span>
+                                <span class="font-mono block text-white">Target Deadband: <span class="text-accent font-bold">±30 RPM</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CIRCUIT DIAGRAM AND EXPLANATION SECTION -->
+        <section id="circuit_details" class="py-16 bg-dark-bg border-b border-gray-700">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h3 class="text-3xl font-bold text-center mb-6 text-white">Power and Logic: Understanding the Motor Control Circuit</h3>
+                
+                <!-- Circuit Diagram Image -->
+                <div class="bg-dark-card p-6 rounded-xl shadow-2xl mb-8 overflow-x-auto">
+                    <img src="Motor_Circuit.png" 
+                         alt="Complete Circuit Diagram for PARMCO Motor Control System"
+                         class="w-full h-auto max-w-4xl mx-auto"
+                         onerror="this.onerror=null; this.src='https://placehold.co/800x600/1e293b/ffffff?text=Circuit+Diagram+Load+Failed';"
+                    >
+                    <p class="text-center text-sm text-gray-500 pt-3">Reference: PARMCO Motor Control System - Complete Circuit Diagram</p>
+                </div>
+
+                <!-- Circuit Explanation - Rewritten -->
+                <h4 class="text-2xl font-semibold text-primary mb-4">The Tripartite System: Power, Direction, and Feedback</h4>
+                <p class="text-gray-400 mb-6">
+                    The complete circuit illustrates a robust, three-stage architecture. The **Raspberry Pi** acts as the low-voltage brain, sending commands to the high-voltage motor stage via the H-Bridge and MOSFET, while simultaneously receiving essential speed data from the IR sensor to close the control loop.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Control Flow (Direction) -->
+                    <div class="bg-gray-800 p-5 rounded-xl border-l-4 border-accent">
+                        <h5 class="text-xl font-semibold text-accent mb-2">1. Commanded Rotation (Direction)</h5>
+                        <p class="text-gray-300 text-sm">
+                            Motor direction is managed by the **L293D H-Bridge** chip. The Pi uses two dedicated control pins, **GPIO17 (IN1)** and **GPIO27 (IN2)**, to flip the voltage polarity applied across the DC motor. This ensures an immediate switch between Forward (FWD) and Reverse (REV) movement based on the mobile app's input.
                         </p>
                     </div>
 
-                    <!-- PWM & Measurement -->
-                    <div class="bg-dark-card p-6 rounded-xl shadow-xl border-l-4 border-secondary/70">
-                        <h4 class="text-xl font-semibold text-white mb-3">Timing and RPM Calculation</h4>
-                        <p class="text-gray-300 mb-4">
-                            The RPM is calculated using a dedicated, high-priority **`pthread`** that constantly monitors the IR sensor pin for rising edges.
+                    <!-- Speed Flow (PWM) -->
+                    <div class="bg-gray-800 p-5 rounded-xl border-l-4 border-primary">
+                        <h5 class="text-xl font-semibold text-primary mb-2">2. Power Regulation (PWM)</h5>
+                        <p class="text-gray-300 text-sm">
+                            Speed is controlled using **Pulse Width Modulation (PWM)** from the Pi (**GPIO18**). Critically, this signal passes through the **Q1 MOSFET**, which acts as an inverting switch for the L293D's **Enable (EN1)** pin. This configuration means the MOSFET toggles the 12V supply, allowing the Pi to modulate the motor's power while drawing minimal current from its own GPIO pins.
                         </p>
-                        <ul class="space-y-2 text-gray-300">
-                            <li class="flex justify-between items-center border-b border-gray-700 pb-1">
-                                <span class="font-medium">PWM Frequency:</span>
-                                <span class="text-secondary font-mono">1 kHz</span>
-                            </li>
-                            <li class="flex justify-between items-center border-b border-gray-700 pb-1">
-                                <span class="font-medium">Pulses per Rotation:</span>
-                                <span class="text-secondary font-mono">3 Pulses</span>
-                            </li>
-                            <li class="flex justify-between items-center">
-                                <span class="font-medium">RPM Update Interval:</span>
-                                <span class="text-secondary font-mono">0.3 Seconds</span>
-                            </li>
-                        </ul>
                     </div>
 
-                    <!-- PID Parameters -->
-                    <div class="bg-dark-card p-6 rounded-xl shadow-xl border-l-4 border-accent/70">
-                        <h4 class="text-xl font-semibold text-white mb-3">Closed-Loop PID Tuning</h4>
-                        <p class="text-gray-300 mb-4">
-                            The Automatic (Target RPM) mode uses a fixed-point Proportional-Integral (PI) control loop running inside the RPM thread.
+                    <!-- Feedback Flow (RPM) -->
+                    <div class="bg-gray-800 p-5 rounded-xl border-l-4 border-secondary">
+                        <h5 class="text-xl font-semibold text-secondary mb-2">3. Real-Time Feedback (RPM)</h5>
+                        <p class="text-gray-300 text-sm">
+                            The system achieves closed-loop control through an **IR reflective sensor**, which monitors the motor shaft. Each rotation generates three digital pulses that feed directly into **GPIO22**. The Pi’s C program analyzes the frequency of these pulses to calculate the motor's current **RPM**, providing the essential input for the PID controller.
                         </p>
-                        <ul class="space-y-2 text-gray-300">
-                            <li class="flex justify-between items-center border-b border-gray-700 pb-1">
-                                <span class="font-medium">Proportional Gain (Kp):</span>
-                                <span class="text-accent font-mono">0.015</span>
-                            </li>
-                            <li class="flex justify-between items-center border-b border-gray-700 pb-1">
-                                <span class="font-medium">Integral Gain (Ki):</span>
-                                <span class="text-accent font-mono">0.001</span>
-                            </li>
-                            <li class="flex justify-between items-center">
-                                <span class="font-medium">RPM Deadband:</span>
-                                <span class="text-accent font-mono">±30 RPM</span>
-                            </li>
-                        </ul>
                     </div>
-
                 </div>
             </div>
         </section>
@@ -211,10 +254,10 @@
                     <div class="bg-dark-card p-8 rounded-xl shadow-2xl border-t-4 border-accent">
                         <div class="flex items-center mb-4">
                             <span class="text-accent text-3xl font-bold mr-3">1.</span>
-                            <h4 class="text-2xl font-semibold text-white">Manual PWM Mode</h4>
+                            <h4 class="text-2xl font-semibold text-white">Manual PWM Mode (Open Loop)</h4>
                         </div>
                         <p class="text-gray-400 mb-4">
-                            In Manual mode, the user directly controls the motor's power output via the **Duty Cycle** (0-100%). This is an open-loop control system.
+                            In Manual mode, the user directly commands the motor's raw power level by setting the **Duty Cycle** (0-100%). The controller executes this command without adjusting for load or actual speed.
                         </p>
                         <h5 class="font-bold text-gray-300 mt-4 mb-2">Command Format:</h5>
                         <pre class="bg-gray-800 p-3 rounded-lg text-sm overflow-x-auto"><code class="text-red-400">"50"</code><span class="text-gray-300"> (Sets PWM to 50%)</span><br><code class="text-red-400">"START"</code><span class="text-gray-300"> / </span><code class="text-red-400">"STOP"</code></pre>
@@ -224,10 +267,10 @@
                     <div class="bg-dark-card p-8 rounded-xl shadow-2xl border-t-4 border-primary">
                         <div class="flex items-center mb-4">
                             <span class="text-primary text-3xl font-bold mr-3">2.</span>
-                            <h4 class="text-2xl font-semibold text-white">Automatic Target RPM Mode</h4>
+                            <h4 class="text-2xl font-semibold text-white">Automatic Target RPM Mode (Closed Loop)</h4>
                         </div>
                         <p class="text-gray-400 mb-4">
-                            In Automatic mode, the app requests a specific **Revolutions Per Minute (RPM)** target. The motor controller handles the necessary closed-loop (PID) logic on the hardware side.
+                            In Automatic mode, the user sets a specific **Revolutions Per Minute (RPM)** target. The embedded system utilizes the PID controller to automatically adjust the PWM to maintain the target speed under varying loads.
                         </p>
                         <h5 class="font-bold text-gray-300 mt-4 mb-2">Command Format:</h5>
                         <pre class="bg-gray-800 p-3 rounded-lg text-sm overflow-x-auto"><code class="text-blue-400">"TARGET:4500"</code><span class="text-gray-300"> (Requests 4500 RPM)</span><br><code class="text-blue-400">"FORWARD"</code><span class="text-gray-300"> / </span><code class="text-blue-400">"REVERSE"</code></pre>
@@ -238,7 +281,7 @@
 
         <!-- CTA Section -->
         <section class="py-12 bg-primary/90">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:-px-8 text-center">
                 <h3 class="text-3xl font-bold text-white mb-4">Explore the Motor Control Details</h3>
                 <p class="text-white/80 text-lg mb-6">Review the detailed architecture analysis and embedded system implementation within the project files.</p>
                 <button class="inline-block px-8 py-3 bg-white text-primary font-semibold rounded-lg shadow-lg hover:bg-gray-200 transition duration-300 transform hover:scale-105">
@@ -246,6 +289,7 @@
                 </button>
             </div>
         </section>
+
     </main>
 
     <!-- Footer -->
