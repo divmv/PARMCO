@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PARMCO: Phone APP RP4 Motor Control</title>
+    <title>PARMCO: Phone APP RP4 Motor Control (Tabbed)</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Configure Tailwind for Inter Font -->
@@ -11,6 +11,11 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+        /* Custom CSS to ensure tab content scrolls nicely */
+        #tab-content {
+            min-height: 70vh; /* Ensure content area has a minimum height */
         }
     </style>
     <script>
@@ -30,52 +35,106 @@
                 }
             }
         }
+
+        // JavaScript function for tab switching
+        function showTab(tabId) {
+            // Hide all tab content sections
+            document.querySelectorAll('#tab-content section').forEach(section => {
+                section.classList.add('hidden');
+                section.classList.remove('animate-fadeIn');
+            });
+
+            // Deactivate all tab buttons
+            document.querySelectorAll('#tab-nav button').forEach(button => {
+                button.classList.remove('border-primary', 'text-white');
+                button.classList.add('border-transparent', 'text-gray-400', 'hover:text-primary');
+            });
+
+            // Show the selected tab content with a fade-in effect
+            const activeContent = document.getElementById(tabId);
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+                // Optional: Add a simple fade-in for visual transition
+                activeContent.classList.add('animate-fadeIn'); 
+            }
+
+            // Activate the corresponding tab button
+            const activeTabButton = document.querySelector(`[data-tab-id="${tabId}"]`);
+            if (activeTabButton) {
+                activeTabButton.classList.add('border-primary', 'text-white');
+                activeTabButton.classList.remove('border-transparent', 'text-gray-400');
+            }
+        }
+
+        // Initialize tabs on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show the first tab by default
+            showTab('overview');
+        });
     </script>
 </head>
-<!-- Apply dark background and light text to the entire body -->
+
 <body class="text-gray-100 bg-dark-bg">
 
-    <!-- Header & Navigation -->
-    <header class="bg-dark-card shadow-lg sticky top-0 z-10 border-b border-gray-700">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-primary">
+    <!-- Header & Title -->
+    <div class="bg-dark-card shadow-lg border-b border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <h1 class="text-3xl font-bold text-primary">
                 RP4 Motor Controller <span class="text-secondary text-base font-normal hidden sm:inline-block">/ Precision Control Platform</span>
             </h1>
-            <nav class="space-x-4 text-sm sm:text-base">
-                <a href="#overview" class="text-gray-400 hover:text-primary transition duration-150">Overview</a>
-                <a href="#architecture" class="text-gray-400 hover:text-primary transition duration-150">Architecture</a>
-                <a href="#hardware" class="text-primary font-semibold transition duration-150">Hardware</a>
-                <a href="#circuit_details" class="text-gray-400 hover:text-primary transition duration-150">Circuit Diagram</a>
-                <a href="#features" class="text-gray-400 hover:text-primary transition duration-150">Control Modes</a>
-            </nav>
         </div>
-    </header>
+    </div>
 
-    <main>
-        <!-- Hero Section -->
-        <section id="overview" class="py-16 md:py-24 bg-gray-900 border-b-4 border-primary/50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-4xl sm:text-6xl font-extrabold text-white mb-4 leading-tight">
-                    PARMCO: <span class="text-primary">Phone App RP4 </span> Motor Control
-                </h2>
-                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-8">
-                    PARMCO is a cutting-edge mobile application designed for direct, real-time command and feedback of a remote motor system, focusing on reliability and a modern user experience.
-                </p>
-                <div class="max-w-xs mx-auto rounded-3xl shadow-2xl overflow-hidden border-8 border-gray-700 bg-gray-900">
-                    <!-- App Image -->
-                    <img src="Copy of App.JPEG" 
-                         alt="Screenshot of the PARMCO Android App UI"
-                         class="w-full h-auto object-cover"
-                         onerror="this.onerror=null; this.src='https://placehold.co/400x800/1e293b/ffffff?text=App+Image+Load+Failed';"
-                    >
-                    <p class="text-center text-xs text-gray-500 p-2">Reference: App Interface (Copy of App.JPEG)</p>
-                </div>
+    <!-- Tab Navigation Bar -->
+    <nav id="tab-nav" class="bg-dark-card sticky top-0 z-10 border-b border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap space-x-0 sm:space-x-4">
+                <!-- Tab Buttons -->
+                <button onclick="showTab('overview')" data-tab-id="overview" class="py-3 px-3 sm:px-4 text-sm sm:text-base font-medium border-b-2 transition duration-150 whitespace-nowrap">
+                    Overview
+                </button>
+                <button onclick="showTab('architecture')" data-tab-id="architecture" class="py-3 px-3 sm:px-4 text-sm sm:text-base font-medium border-b-2 transition duration-150 whitespace-nowrap">
+                    Architecture
+                </button>
+                <button onclick="showTab('hardware')" data-tab-id="hardware" class="py-3 px-3 sm:px-4 text-sm sm:text-base font-medium border-b-2 transition duration-150 whitespace-nowrap">
+                    Embedded Hardware
+                </button>
+                <button onclick="showTab('circuit_details')" data-tab-id="circuit_details" class="py-3 px-3 sm:px-4 text-sm sm:text-base font-medium border-b-2 transition duration-150 whitespace-nowrap">
+                    Circuit Diagram
+                </button>
+                <button onclick="showTab('features')" data-tab-id="features" class="py-3 px-3 sm:px-4 text-sm sm:text-base font-medium border-b-2 transition duration-150 whitespace-nowrap">
+                    Control Modes
+                </button>
             </div>
-        </section>
+        </div>
+    </nav>
 
-        <!-- Architecture Section -->
-        <section id="architecture" class="py-16 bg-dark-bg">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div id="tab-content">
+
+            <!-- 1. Overview Section (Hero) -->
+            <section id="overview" class="py-8 md:py-12">
+                <div class="text-center">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-white mb-4 leading-tight">
+                        PARMCO: <span class="text-primary">Real-Time Mobile</span> Motor Control
+                    </h2>
+                    <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-8">
+                        PARMCO is a cutting-edge mobile application designed for direct, real-time command and feedback of a remote motor system, focusing on reliability and a modern user experience.
+                    </p>
+                    <div class="max-w-xs mx-auto rounded-3xl shadow-2xl overflow-hidden border-8 border-gray-700 bg-gray-900">
+                        <!-- App Image -->
+                        <img src="Copy of App.JPEG" 
+                             alt="Screenshot of the PARMCO Android App UI"
+                             class="w-full h-auto object-cover"
+                             onerror="this.onerror=null; this.src='https://placehold.co/400x800/1e293b/ffffff?text=App+Image+Load+Failed';"
+                        >
+                        <p class="text-center text-xs text-gray-500 p-2">Reference: App Interface (Copy of App.JPEG)</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Architecture Section -->
+            <section id="architecture" class="py-8 md:py-12 hidden">
                 <h3 class="text-3xl font-bold text-center mb-12 text-white">Project Architecture and Implementation</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
@@ -110,12 +169,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Hardware Components Section - FULLY REWORKED -->
-        <section id="hardware" class="py-16 bg-gray-900 border-b border-gray-700">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- 3. Hardware Components Section -->
+            <section id="hardware" class="py-8 md:py-12 hidden">
                 <h3 class="text-4xl font-extrabold text-center mb-12 text-white">Embedded Control and Circuit Details Overview</h3>
                 
                 <p class="text-center text-lg text-gray-400 max-w-4xl mx-auto mb-10">
@@ -190,17 +247,16 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        
-        <!-- CIRCUIT DIAGRAM AND EXPLANATION SECTION -->
-        <section id="circuit_details" class="py-16 bg-dark-bg border-b border-gray-700">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            </section>
+            
+            <!-- 4. Circuit Diagram Section -->
+            <section id="circuit_details" class="py-8 md:py-12 hidden">
                 <h3 class="text-3xl font-bold text-center mb-6 text-white">Power and Logic: Understanding the Motor Control Circuit</h3>
                 
                 <!-- Circuit Diagram Image -->
                 <div class="bg-dark-card p-6 rounded-xl shadow-2xl mb-8 overflow-x-auto">
-                    <img src="Motor_Circuit.png" 
+                    <!-- Updated image source to the correct file name -->
+                    <img src="image_c3d3c5.png" 
                          alt="Complete Circuit Diagram for PARMCO Motor Control System"
                          class="w-full h-auto max-w-4xl mx-auto"
                          onerror="this.onerror=null; this.src='https://placehold.co/800x600/1e293b/ffffff?text=Circuit+Diagram+Load+Failed';"
@@ -208,7 +264,7 @@
                     <p class="text-center text-sm text-gray-500 pt-3">Reference: PARMCO Motor Control System - Complete Circuit Diagram</p>
                 </div>
 
-                <!-- Circuit Explanation - Rewritten -->
+                <!-- Circuit Explanation -->
                 <h4 class="text-2xl font-semibold text-primary mb-4">The Tripartite System: Power, Direction, and Feedback</h4>
                 <p class="text-gray-400 mb-6">
                     The complete circuit illustrates a robust, three-stage architecture. The **Raspberry Pi** acts as the low-voltage brain, sending commands to the high-voltage motor stage via the H-Bridge and MOSFET, while simultaneously receiving essential speed data from the IR sensor to close the control loop.
@@ -240,12 +296,10 @@
                         </p>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Control Modes & Features Section -->
-        <section id="features" class="py-16 bg-dark-bg">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- 5. Control Modes & Features Section -->
+            <section id="features" class="py-8 md:py-12 hidden">
                 <h3 class="text-3xl font-bold text-center mb-12 text-white">Dual Control Modes and Command Structure</h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -276,11 +330,11 @@
                         <pre class="bg-gray-800 p-3 rounded-lg text-sm overflow-x-auto"><code class="text-blue-400">"TARGET:4500"</code><span class="text-gray-300"> (Requests 4500 RPM)</span><br><code class="text-blue-400">"FORWARD"</code><span class="text-gray-300"> / </span><code class="text-blue-400">"REVERSE"</code></pre>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
 
-        <!-- CTA Section -->
-        <section class="py-12 bg-primary/90">
+        <!-- CTA Section (Outside Tabs) -->
+        <section class="py-12 bg-primary/90 mt-8 rounded-xl shadow-2xl">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:-px-8 text-center">
                 <h3 class="text-3xl font-bold text-white mb-4">Explore the Motor Control Details</h3>
                 <p class="text-white/80 text-lg mb-6">Review the detailed architecture analysis and embedded system implementation within the project files.</p>
@@ -293,11 +347,11 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-400 py-8">
+    <footer class="bg-gray-800 text-gray-400 py-8 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-sm mb-2">&copy; 2025 PARMCO Motor Control. Built with Kotlin and Bare-Metal C.</p>
             <div class="space-x-4 text-sm">
-                <a href="#top" class="hover:text-primary transition duration-150">Back to Top</a>
+                <a href="#" onclick="window.scrollTo(0, 0); return false;" class="hover:text-primary transition duration-150">Back to Top</a>
             </div>
         </div>
     </footer>
